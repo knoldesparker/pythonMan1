@@ -51,7 +51,7 @@ except Exception as err:
 except FileNotFoundError as fNFE:
     print(fNFE)
 
-"""
+
 for elm in urlList:
     if not os.path.exists(elm[49:-4]):
             print("cloning from git")
@@ -59,7 +59,7 @@ for elm in urlList:
     else:
             print("pulling from git")
             subprocess.run(['git', 'pull'])
-"""
+
 
 """
 for filename in glob.iglob('**/README.md', recursive=True):
@@ -72,6 +72,17 @@ for f in file_list:
         lines = fl.read()
         rr.append(lines)
     print(rr)
+
+os.chdir('..')
+if "required_reading.md" not in os.listdir("."):
+    e = open("required_reading.md","w+")
+    for line in rr:
+        e.write(line)
+else:
+    e = open("required_reading.md","w+")
+    for line in rr:
+        e.write(line)
+
 
 """
 for fp in file_list:
