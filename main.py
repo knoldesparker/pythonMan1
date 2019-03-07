@@ -18,7 +18,8 @@ except HTTPError as hTTPeR:
 
 urlList = []
 readMeList = []
-#Method for searching the file
+
+#Method for searching the local API file
 def search(filename, filter):
     try:
         with open(filename) as f:
@@ -31,27 +32,37 @@ def search(filename, filter):
     except Exception as err:
         print(err)
 
+
+def readURLFromAPI():
+    try:
+        for result in search('localAPI.txt', 'clone_url'):
+            urlList.append(result)
+    except Exception:
+        print(Exception)
+
+
 #Appends the elements to the urllist
-try:
-    for result in search('localAPI.txt', 'clone_url'):
-        urlList.append(result)
-except Exception:
-    print(Exception)
-
-try:
-    if "repos" not in os.listdir('.'):
-        os.mkdir("repos")
-        os.chdir("repos")
-        print("Creating dir")
-    else:
-        os.chdir("repos")
-        print("dir exist, swapping dir")
-except Exception as err:
-    print(err)
-except FileNotFoundError as fNFE:
-    print(fNFE)
+readURLFromAPI()
 
 
+def make_change_directory():
+    try:
+        if "repos" not in os.listdir('.'):
+            os.mkdir("repos")
+            os.chdir("repos")
+            print("Creating dir")
+        else:
+            os.chdir("repos")
+            print("dir exist, swapping dir")
+    except Exception as err:
+        print(err)
+    except FileNotFoundError as fNFE:
+        print(fNFE)
+
+
+make_change_directory()
+
+"""
 for elm in urlList:
     if not os.path.exists(elm[49:-4]):
             print("cloning from git")
@@ -59,30 +70,42 @@ for elm in urlList:
     else:
             print("pulling from git")
             subprocess.run(['git', 'pull'])
-
+"""
 
 """
 for filename in glob.iglob('**/README.md', recursive=True):
     print(filename)
 """
-rr = []
-file_list = [f for f in iglob('**/README.md', recursive=True) if os.path.isfile(f)]
-for f in file_list:
-    with open(f,'rt') as fl:
-        lines = fl.read()
-        rr.append(lines)
-    print(rr)
+import string
 
-os.chdir('..')
-if "required_reading.md" not in os.listdir("."):
-    e = open("required_reading.md","w+")
-    for line in rr:
-        e.write(line)
-else:
-    e = open("required_reading.md","w+")
-    for line in rr:
-        e.write(line)
 
+def readFromMdFile():
+    global rr
+    rr = []
+    file_list = [f for f in iglob('**/README.md', recursive=True) if os.path.isfile(f)]
+    for f in file_list:
+        with open(f, 'rt') as fl:
+            lines = fl.read()
+            rr.append(lines)
+        print(rr)
+
+
+readFromMdFile()
+
+
+def writeToRRMD():
+    os.chdir('..')
+    if "required_reading.md" not in os.listdir("."):
+        e = open("required_reading.md", "w+")
+        for line in rr:
+            e.write(line)
+    else:
+        e = open("required_reading.md", "w+")
+        for line in rr:
+            e.write(line)
+
+
+writeToRRMD()
 
 """
 for fp in file_list:

@@ -215,7 +215,6 @@ Today we will talk about Lists and Tuples. We will also look at how to sort list
 <a href="https://python-elective-1-spring-2019.github.io/">index</a> | 
 <a href="../../../Lesson-04-Dictionary-Sets-Reading-and-Writing-Files/blob/master/README.md">next</a>
 </div>
-
 # Lesson 4: Dictionary, Sets, Reading and writing files
 Agenda 26-02-2019
 
