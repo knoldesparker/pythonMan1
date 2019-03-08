@@ -64,7 +64,7 @@ def make_change_directory():
 
 make_change_directory()
 
-"""
+
 for elm in urlList:
     if not os.path.exists(elm[49:-4]):
             print("cloning from git")
@@ -72,14 +72,6 @@ for elm in urlList:
     else:
             print("pulling from git")
             subprocess.run(['git', 'pull'])
-"""
-
-"""
-for filename in glob.iglob('**/README.md', recursive=True):
-    print(filename)
-"""
-import string
-
 
 def readFromMdFile():
     global rr
@@ -90,10 +82,11 @@ def readFromMdFile():
             lines = fl.read()
             lines = lines[lines.find('## Required reading'):lines.find('## Supplementary reading')]
             lines = lines[lines.find('## Required reading'):lines.find('### Supplementary reading')]
+            lines = lines[lines.find('## Required reading'):lines.find('## Required reading paragraph')]
             rr.append(lines)
 
-readFromMdFile()
 
+readFromMdFile()
 
 def writeToRRMD():
     os.chdir('..')
@@ -106,18 +99,7 @@ def writeToRRMD():
         for line in rr:
             e.write(line)
 
-
 writeToRRMD()
-
-"""
-for fp in file_list:
-        with open(fp, 'r') as f:
-            # Read the first line
-            rReading = f.read()
-            # Append the first line into the list
-            rr.append(first_line)
-        print(rr)
-"""
 
 
 
