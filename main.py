@@ -12,6 +12,8 @@ import re
 try:
     res = urlopen('https://api.github.com/orgs/python-elective-1-spring-2019/repos?per_page=100')
     resault = res.read().decode('utf-8')
+    file = open('localAPI.txt', 'r+')
+    file.write(resault)
 except HTTPError as hTTPeR:
     print(hTTPeR)
 """
@@ -86,9 +88,9 @@ def readFromMdFile():
     for f in file_list:
         with open(f, 'rt') as fl:
             lines = fl.read()
+            lines = lines[lines.find('## Required reading'):lines.find('## Supplementary reading')]
+            lines = lines[lines.find('## Required reading'):lines.find('### Supplementary reading')]
             rr.append(lines)
-        print(rr)
-
 
 readFromMdFile()
 
