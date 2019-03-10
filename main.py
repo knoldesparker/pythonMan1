@@ -63,8 +63,8 @@ def make_change_directory():
 
 
 make_change_directory()
-
-
+# Remove """ for automatic git updates, disable due to speed
+"""
 for elm in urlList:
     if not os.path.exists(elm[49:-4]):
             print("cloning from git")
@@ -72,7 +72,7 @@ for elm in urlList:
     else:
             print("pulling from git")
             subprocess.run(['git', 'pull'])
-
+"""
 def readFromMdFile():
     global rr
     rr = []
@@ -84,6 +84,8 @@ def readFromMdFile():
             lines = lines[lines.find('## Required reading'):lines.find('### Supplementary reading')]
             lines = lines[lines.find('## Required reading'):lines.find('## Required reading paragraph')]
             rr.append(lines)
+
+
 
 
 readFromMdFile()
@@ -102,9 +104,44 @@ def writeToRRMD():
 writeToRRMD()
 
 
+def removeHashTag():
+    global line
+    f = open("required_reading.md", "r")
+    lines = f.readlines()
+    f.close()
+    f = open("required_reading.md", "w")
+    for line in lines:
+        if line != "## Required reading" + "\n":
+            f.write(line)
+    f.close()
+removeHashTag()
 
 
+#def itemgetter(elem):
+  #  return elem[l.find('*')]
+
+fnitler = open("required_reading.md", "r+")
+lines = fnitler.readlines()
+lines.sort()
+map(sys.stdout.write, lines)
+fnitler.close()
+
+#for l in lines:
+ #   lines.sort(key=itemgetter, reverse=False)
+  #  print("doing lines")
+
+#fnitler.close()
 
 
+with open('required_reading.md', "r") as f:
+    sorted_file = sorted(f)
+
+#save to a file
+with open('required_reading.md', "w") as f:
+    f.writelines(sorted_file)
+
+#write to stdout
+import sys
+sys.stdout.writelines(sorted_file)
 
 
