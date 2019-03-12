@@ -6,13 +6,14 @@ import sys
 from glob import iglob
 import glob
 import re
+import fileinput
 
 #Getting API file from Github
 """
 try:
     res = urlopen('https://api.github.com/orgs/python-elective-1-spring-2019/repos?per_page=100')
     resault = res.read().decode('utf-8')
-    file = open('localAPI.txt', 'r+')
+    file = open('localAPI2.txt', 'r+')
     file.write(resault)
 except HTTPError as hTTPeR:
     print(hTTPeR)
@@ -37,7 +38,7 @@ def search(filename, filter):
 
 def readURLFromAPI():
     try:
-        for result in search('localAPI.txt', 'clone_url'):
+        for result in search('localAPI2.txt', 'clone_url'):
             urlList.append(result)
     except Exception:
         print(Exception)
@@ -64,7 +65,7 @@ def make_change_directory():
 
 make_change_directory()
 # Remove """ for automatic git updates, disable due to speed
-"""
+##Clones form the git repos
 for elm in urlList:
     if not os.path.exists(elm[49:-4]):
             print("cloning from git")
@@ -72,7 +73,9 @@ for elm in urlList:
     else:
             print("pulling from git")
             subprocess.run(['git', 'pull'])
-"""
+
+
+#Reads from the md files in the repos, slicing the lines from ## RR to ## SP. Also takes acount for errors
 def readFromMdFile():
     global rr
     rr = []
@@ -89,7 +92,7 @@ def readFromMdFile():
 
 
 readFromMdFile()
-
+#Writes the lines in rr array to the required_reading.md file
 def writeToRRMD():
     os.chdir('..')
     if "required_reading.md" not in os.listdir("."):
@@ -103,7 +106,7 @@ def writeToRRMD():
 
 writeToRRMD()
 
-
+#Opens the file and removes the ## Required reading headline
 def removeHashTag():
     global line
     f = open("required_reading.md", "r")
@@ -116,23 +119,8 @@ def removeHashTag():
     f.close()
 removeHashTag()
 
-
-#def itemgetter(elem):
-  #  return elem[l.find('*')]
-
-fnitler = open("required_reading.md", "r+")
-lines = fnitler.readlines()
-lines.sort()
-map(sys.stdout.write, lines)
-fnitler.close()
-
-#for l in lines:
- #   lines.sort(key=itemgetter, reverse=False)
-  #  print("doing lines")
-
-#fnitler.close()
-
-
+#Sorts the file
+#Opens the file
 with open('required_reading.md', "r") as f:
     sorted_file = sorted(f)
 
@@ -140,8 +128,21 @@ with open('required_reading.md', "r") as f:
 with open('required_reading.md', "w") as f:
     f.writelines(sorted_file)
 
-#write to stdout
-import sys
-sys.stdout.writelines(sorted_file)
+
+for line in fileinput.FileInput("required_reading.md", inplace=1):
+    if line.rstrip():
+        print(line)
+
+
+#Method to push to git
+def pushToGit():
+    # add,comit,push to git
+    subprocess.run(['git', 'add', '.'])
+    subprocess.run(['git', 'commit', '-m', '"commit requred reading"'])
+    subprocess.run(['git', 'pull'])
+    subprocess.run(['git', 'push'])
+
+
+pushToGit()
 
 
