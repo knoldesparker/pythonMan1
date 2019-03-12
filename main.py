@@ -138,7 +138,7 @@ for line in fileinput.FileInput("required_reading.md", inplace=1):
 def pushToGit():
     # add,comit,push to git
     subprocess.run(['git', 'add', '.'])
-    subprocess.run(['git', 'commit', '-m', '"commit requred reading"'])
+    subprocess.run(['git', 'commit', '-m', 'commit requred reading'])
     subprocess.run(['git', 'pull'])
     subprocess.run(['git', 'push'])
 
